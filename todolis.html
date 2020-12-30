@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="bootstrap.css">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <script src="bootstrap.js"></script>
+    <script src="vue.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    ul {
+        margin: 0;
+        padding: 0!important;
+        height: 50vh;
+        overflow-y: scroll; position: relative;
+    }
+
+    .container {
+        margin-top: 10vh;
+    }
+
+    .frame {
+
+
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        border-radius: 21px;
+    }
+
+    .header {
+        padding: 20px 10px;
+    }
+
+    ul li {
+        list-style: none;
+        
+        transition: .2s all ;
+        
+        padding: 8px 10px 10px 30px;
+
+
+    }
+
+    ul li:nth-child(odd) {
+
+        background-color: #87878769;
+  
+    }
+        ul li:hover {
+     background-color: #878787;
+     cursor: pointer;
+    }
+
+    li button {
+        /* position: absolute;
+        right :0 ; */
+        float:right;
+        border: 1px solid #878787;
+        border-radius: 5px;
+        line-height: 1.2;
+        outline: none;
+        
+      
+
+
+    }
+    li:nth-child(odd) button {
+        border: 1px solid #878787
+    }
+
+
+    ul li.checked {
+    background: #888;
+    color: #fff;
+    text-decoration: line-through;
+  }
+  
+ ul  li.checked::before {
+    content: '';
+    position: absolute;
+    border-color: red;
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    top: 10px;
+    left: 16px;
+    transform: rotate(45deg);
+    height: 15px;
+    width: 7px;
+  }
+  span  {
+      cursor: pointer;
+  }
+</style>
+
+<body>
+
+
+    <div id="app">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+
+                    <div class="frame">
+                        <div class="header">
+                            <div class="col-12 mb-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"placeholder="write works to do"  v-model.trim="input" @keydown.enter="addtolist(input , false)" >
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend2" @click="addtolist()"> Add to list</span>
+                                    </div>
+                                </div>
+
+                             <!-- <h1>{{  input }}</h1>    -->
+                             
+                            </div>
+                        </div>
+
+                        <ul>
+
+                            <todolist
+
+                             v-for="(item , index) in items" 
+                             :key="item.name"
+                             :item="item"
+                             @checked = "item.status=!item.status"
+                             @del = "delete1(index)"
+                            
+                            
+                            ></todolist> 
+                       
+                       </ul>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+<script>
+
+   const app = Vue.createApp({
+
+            
+               data: () => ({
+
+                input : '',
+               
+                items : [
+                    
+                {name:'first work' , status :false},
+                {name:'second work' ,status :false},
+                {name:'third work' , status :false},
+
+                // 'first' , 'second' ,'third'
+             
+            
+              ]
+
+             }),
+             
+             methods: {
+                
+                addtolist(){
+                    if  (this.input){
+
+                               this.items.push({ name : this.input , status : false }),
+                            // this.items.status.push(status)
+                            this.input = ""
+                    }else{
+                        alert('shut the fuck up and fill the form boy...')
+                    }   
+                },
+                delete1(index){
+                   
+                    this.items.splice(index,1)  
+
+                },
+                test(index){
+                    console.log('this works fine')
+                    console.log(index)
+                }
+
+
+                },
+            
+
+   })
+
+   app.component('todolist' , {
+
+
+    template: `     <li :class="{ checked : item.status }" 
+                            @click="$emit('checked')" 
+                            > {{item.name}} 
+                             <button @click="$emit('del')"  >X</button>
+                             </li>`,
+
+                             props : ['item']
+    
+
+
+   })
+
+   app.mount("#app") ;
+       
+            
+
+
+
+</script>    
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="bootstrap.js"></script>
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+
+<style>
+
+</style>
+
+<body>
+
+
+    <div id='root'>
+
+        <counter-base @inc="plusNumber" class="text-center mt-5 mb-5">
+            <p>hello</p>
+            <p> Counter : {{ num}}</p>
+            <template v-slot:btn-text>
+                add
+            </template>
+        </counter-base>
+        <counter-base @inc="plusNumber1" class="text-center mt-5 mb-5">
+            <p></p>
+            <p> Counter : {{ num1}}</p>
+            <template v-slot:btn-text>
+                add new 
+            </template>
+        </counter-base>
+
+
+
+
+        <h1 class="text-center"> {{ num }}</h1>
+        <h1 class="text-center"> {{ num1}}</h1>
+
+    </div>
+
+
+    <script>
+
+
+       
+        const root = Vue.createApp({
+
+            data: () => ({
+                num: 3,
+                num1: 3 ,
+            }),
+            methods:{
+               
+                plusNumber(number , ali , str, ff ){
+
+                    console.log(number , ali , str ,ff  )
+                    this.num+=number
+                },
+                plusNumber1(number , ali , str, ff ){
+
+                    console.log(number , ali , str ,ff  )
+                    this.num1++
+                }
+            }
+            
+
+        });
+        root.component('CounterBase', {
+
+
+            data() {
+                return {
+
+                    counter: this.numbern
+
+                }
+            },
+
+            // props: ['text', 'numbern'],
+
+            //   < button @click="counter+=5" >
+            template: `
+                      
+                       <div>
+                            <slot></slot>
+                            <button @click="inc" > 
+                                <slot name="btn-text"></slot>
+                                 </button >
+                        </div>
+          
+                        `
+            ,
+            methods: {
+                inc(){
+
+                    this.$emit('inc' , 10 , true ,'str' ,false )
+                      
+                }
+                
+            },
+
+        })
+        root.mount('#root')
+
+    </script>
+</body>
+
+</html>

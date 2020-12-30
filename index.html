@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="bootstrap.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    .vue {
+        background-color: greenyellow;
+    }
+
+    .react {
+        background-color: blueviolet;
+    }
+
+    .textColor {
+        color: red
+    }
+
+    .col-md-3 .frame {
+        /* background-color: blueviolet; */
+        height: 100px;
+
+    }
+</style>
+
+<body>
+
+
+
+
+
+    <div id="app" style="margin: 100px auto; text-align: center;"  >
+
+        <h3 :style="styles" :class="[ isVue ? 'vue' : 'react', 'textColor'] " @mouseover="isVue = !isVue"
+            @mouseleave="isVue = !isVue"> hello {{ isVue ? 'vue.js' : 'react.js' }} {{counter}}</h3>
+
+        <button v-on:click="inc() , logEvent($event)">add</button>
+        <button @click=' counter--' isVue=!isVue>sub</button>
+
+        <form action="">
+            <input type="text" v-model="input.text" @keydown="handleKeydown" @keyup="handleKeyup">
+        </form>
+
+        <h2>{{input.text}}</h2>
+        <p :style="styles">{{input.status}}</p>
+        <p class="vue textColor" v-if="isVue"> v-if </p>
+        <p class="react textColor" v-else> v-else </p>
+
+
+
+
+        <button @click="isVue= !isVue"> {{ isVue ? 'isVue' : 'not isVue' }} </button>
+
+
+        <p class="vue textColor" v-show="isVue"> v-show = "isVue" </p>
+        <p class="react textColor" v-show="!isVue"> v-show = " not isVue" </p>
+
+        <ul>
+            <li v-for="framework in frameworks">{{ framework}} </li>
+        </ul>
+
+
+        <!--  loop -->
+
+        <div class="container">
+            <h1> for in array </h1>
+            <div class="row">
+                <div class="col-md-3 p-1" v-for="(framework , index) in frameworks" :key="framework">
+                    <div :style="{backgroundColor: randomColor(index) , fontSize : '30px' , color : 'white'}"
+                        class="frame">{{(index+1)}} : {{ framework}}</div>
+                </div>
+            </div>
+            <h1> for in object </h1>
+            <div class="row">
+                <div class="col-md-3 p-1" v-for="(object, key , index) in forInObjets " :key="object">
+                    <div :style="{backgroundColor: randomColor(index+1) , fontSize : '30px' , color : 'white'}"
+                        class="frame">{{ key}} : {{ object}} => {{(index+1)}}</div>
+                </div>
+            </div>
+            <h1> for in list of objects </h1>
+            <div class="row">
+                <div class="col-md-3 p-1" v-for="(personal, key , index) in personals" :key="personal">
+                    <div :style="{backgroundColor: randomColor(key) , fontSize : '20px' , color : 'white'}"
+                        class="frame"> {{ personal.name}} - {{personal.lastname}} -{{personal.age}} -
+                        {{personal.weight}} - {{key}}</div>
+                </div>
+            </div>
+            <h1>double for in list of objects </h1>
+            <div class="row">
+                <div class="col-md-3 p-1" v-for="(personal, key , index) in personals " key="personal">
+                    <div :style="{backgroundColor: randomColor(key) , fontSize : '20px' , color : 'white'}"
+                        class="frame" v-for="n in personal" key="n"> {{n}} </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- v-for and v-if  -->
+
+
+        <section style="background-color: aliceblue;">
+            <div class="container">
+                                <div class="row">
+                                    <template v-for="framework in frameworks">
+                                        <div class="col-md-3 p-1" style="background-color: chartreuse;">
+                                
+                                            <div class="frame" style="background-color: burlywood;">
+                                
+                                                {{framework}}
+                                
+                                            </div>
+                                
+                                        </div>
+                                    </template>
+                                
+                                </div>
+                <div class="row">
+
+                    <div class="col-md-3 p-1" v-for="framework in frameworks" style="background-color: chartreuse;">
+
+                        <div class="frame" style="background-color: burlywood;" >
+                            <template v-if="framework !='react.js'">
+                                <div>
+                                    {{framework}}
+                                </div>
+                            </template>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3 p-1" v-for="framework in frameworks" style="background-color: chartreuse;">
+
+                        <div class="frame" style="background-color: burlywood;"v-if="framework !='react.js'" >
+                            
+                                    {{framework}}
+                              
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <template v-for="framework in frameworks">
+                    <div class="col-md-3 p-1"  v-if="framework !='react.js'"  style="background-color: chartreuse;">
+                    
+                        <div class="frame" style="background-color: burlywood;">
+                    
+                            {{framework}}
+                    
+                        </div>
+                    
+                    </div>
+                    </template>                
+                </div>
+
+                <h1 class="mt-5"> using template in conditional list</h1>
+                <div class="row mt-5">
+
+                    <ul>
+                        <template  v-for="(framework , index ) in upperCase" >
+                            <li v-if="framework !='react.js'">
+                            
+                            {{(index)}} -{{framework}}
+                            
+                            </li>
+                        </template>
+                      
+                  </ul>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- v-html and v-pre -->
+
+        <section>
+         
+            <div v-html="html"></div>
+            <div v-pre> {{ ali aghakhani }}</div>
+
+        </section>
+
+
+        <!-- event modifier -->
+        <h1 class="mt-5">event modifier</h1>
+        <form @submit.prevent="handlesubmit">
+            <input type="text" v-model="input.inputTester"  @keydown=" input.inputTester += 10 ">
+            <button type="submit">submit</button>
+            <p>{{ input.inputTester }}</p>
+        </form>
+
+
+
+        
+         
+        <h1 class="mt-5 mb-5">word filtering with word</h1>
+        <input type="text" v-model="word" @keyup="functiond($event) , evhandler($event)"> 
+        <p class="mt-5">{{ word }}</p>
+        <h1 class="mt-5 mb-5">word filtering with char</h1>
+        <input type="text" v-model="word" @keyup="wordFiltering($event) , evhandler($event)"> 
+        <p class="mt-5">{{ word }}</p>
+
+
+
+
+        <h1 class="mt-5">Computeds</h1>
+        <input class="mt-5" type="text" v-model="fullName">
+        <p class="mt-5">{{ fullName }}</p>
+        <!-- <h3>user full name no setter : {{  withoutSetter }} </h3> -->
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <!-- app: 'vue.js',counter:1 ,isVue : true} -->
+
+    <!-- Vue ver 3  -->
+    <!-- <script src="repo.js"></script> -->
+    <script src="vue.js"></script>
+    <script>
+
+        var p = null ;
+        var chachword = null;
+        var character =[ ];
+        // var mc = ''
+
+
+
+        const app = Vue.createApp({
+
+            data: () => ({
+                html:'<h1> using v-html and v-pre </h1>',
+                app: 'app',
+                counter: 1,
+                isVue: true,
+                input: {
+                    text: 'ali',
+                    status: '',
+                    inputTester:0
+                },
+                computed:{
+                
+                FirstName : 'ali',
+                LastName : 'aghakhani'
+
+
+
+                },
+                
+                keyWords:[ 'google' , 'facebook' ,'gg' ],
+                word: '',
+                styles: {
+                    display: 'block',
+                    transition: '1s all',
+                    top: '100px',
+                  
+
+                    // color:'white',
+                    // backgroundColor : 'black',
+                },
+                colorCache: {},
+
+                // colStyle:{
+
+
+                //     'background-color' : randomColor(),
+
+                // },
+                // classes:  ['isVue' ? 'vue' : 'react', 'textColor'] 
+                //  classes:  'vue textColor'
+                // classes : { 'vue textColor': 'isVue' }
+
+                frameworks: 
+                // ['vue.js', 'react.js', 'angular.js', 'jquery.js'].map(n => n.toUpperCase()),
+                ['vue.js', 'react.js', 'angular.js', 'jquery.js'],
+
+                forInObjets: {
+                    one: 'php',
+                    two: 'java',
+                    three: 'kotlin',
+                    for: 'csharp'
+                },
+                personals: [
+                    { name: 'ali', lastname: 'aghakhani', age: '26', weight: '90' },
+                    { name: 'reza', lastname: 'khosro', age: '28', weight: '70' },
+                    { name: 'salar', lastname: 'kordian', age: '29', weight: '40' },
+                    { name: 'milad', lastname: 'lahooti', age: '20', weight: '100' },
+
+                ]
+
+
+            }),
+            computed:{
+
+                    //  withoutSetter () {
+
+                    //      return this.computed.FirstName + ' ' + this.computed.LastName ;
+                    //  },
+
+                 
+
+                 fullName:{
+                 
+                
+                   get() { return this.computed.FirstName +''+ this.computed.LastName; },   
+                   set(newValue){
+                         
+                    
+                        let fname =  newValue.split('')  ;
+                                  this.computed.FirstName =fname[0] ||"";
+                                  this.computed.LastName = fname[1] ||"" ;         
+
+                         console.log(newValue.split(''))
+                                
+                                } ,
+                
+                 
+                },
+
+                upperCase (){  return this.frameworks.map(n => n.toUpperCase())  }
+
+
+            },
+            methods: {
+                handlesubmit(event){
+
+                //    event.preventDefault(); // use modifier insted
+                    
+                 
+                    console.log(event)
+
+                },
+                handleKeydown(event) {
+                    this.input.status = 'is typing...'
+                    console.log(event.key)
+                    this.styles.opacity = 1
+
+                },
+                handleKeyup() {
+                    this.styles.opacity = 0
+                },
+                inc(number = 1) {
+                    console.log(number)
+                    this.counter += number;
+                },
+
+                logEvent(event) {
+
+                    console.log(event)
+                },
+                randomColor(id) {
+                    const r = () => Math.floor(256 * Math.random());
+                    return this.colorCache[id] || (this.colorCache[id] = `rgb(${r()}, ${r()}, ${r()})`);
+                },
+                evhandler (event){
+                    console.log(event.key)
+                },
+                wordFiltering(event){
+                  
+                    if (p == 1 ){
+                        if(event.key === 'Backspace' ){
+                            p = 0
+                        }else{
+                            alert('u most retype')
+                            this.word= chachword;
+                        }
+                    }
+               
+                    let checkword ='';
+                    checkword += this.word;
+                        // debugger;
+                    for( n in this.keyWords){
+
+                        if (checkword ==  this.keyWords[n]){
+                            alert('word is wrong clean it ');
+                             chachword = this.word ;
+                            p=1
+                            
+                        }
+
+                    }
+
+                },
+                functiond(event){
+
+                    //                     if (p == 1) {
+                    //     if (event.key === 'Backspace') {
+                    //         p = 0
+                    //     } else {
+                    //         alert('u most retype')
+                    //         this.word = chachword;
+                    //     }
+                    // }
+
+                    // let checkword = '';
+                    // checkword += this.word;
+                    
+                   if(event.key === 'Backspace'){
+                       character.splice(-1, 1)
+                    //    console.log(character)
+                   }else{
+
+                     character.push(event.key);
+                    //  console.log(character)
+
+                   }
+                  
+                   
+
+                   
+                    // console.log(character)
+                    // debugger;
+                    // for (n in this.keyWords) {
+
+                    //     if (checkword == this.keyWords[n]) {
+                    //         alert('word is wrong clean it ');
+                    //         chachword = this.word;
+                    //         p = 1
+
+                    //     }
+
+                    // }
+                    
+                    for (let i = 0 ; i<= character.length ; i++){
+                        let mc = "";
+                        mc += character[i] ;
+                        for(let j = i+1 ; j<= character.length ; j++){
+                          mc+= character[j] 
+                          console.log(mc)
+                          if( mc === 'facebook' ){
+                              alert('the word is wrong')
+                          }
+                        }
+                    }
+
+                }
+
+
+
+            },
+            watch : {
+                app(newValue , oldValue)
+                
+                {
+
+                    console.log ('new value ' , newValue);
+                    console.log ('old value ' , oldValue);
+
+                }
+            }
+
+
+
+        })
+
+        app.mount('#app');
+
+
+    </script>
+
+
+
+
+
+
+    <script type="module" src="index.js"></script>
+</body>
+
+</html>
