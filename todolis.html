@@ -110,6 +110,9 @@
                                     <input type="text" class="form-control"placeholder="write works to do"  v-model.trim="input" @keydown.enter="addtolist(input , false)" >
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroupPrepend2" @click="addtolist()"> Add to list</span>
+                                        <span class="input-group-text" id="inputGroupPrepend2" @click="sortString()"> sort</span>
+                                        <span class="input-group-text" id="inputGroupPrepend2" @click="sortbyindex()"> sort by index</span>
+                                       
                                     </div>
                                 </div>
 
@@ -160,8 +163,8 @@
                
                 items : [
                     
-                {name:'first work' , status :false},
-                {name:'second work' ,status :false},
+                {name:'first work' , status :false },
+                {name:'second work' ,status :false },
                 {name:'third work' , status :false},
 
                 // 'first' , 'second' ,'third'
@@ -174,14 +177,23 @@
              methods: {
                 
                 addtolist(){
+
                     if  (this.input){
 
-                               this.items.push({ name : this.input , status : false }),
+                               this.items.unshift({ name : this.input , status : false }),
+                               // if you want to add array item last of the list you can use push method.
                             // this.items.status.push(status)
                             this.input = ""
                     }else{
                         alert('shut the fuck up and fill the form boy...')
-                    }   
+                    } 
+                    
+
+                   
+                  
+                    
+                   
+                   
                 },
                 delete1(index){
                    
@@ -191,6 +203,43 @@
                 test(index){
                     console.log('this works fine')
                     console.log(index)
+                },
+               sortString(){
+
+                 
+                    
+ 
+                     this.items.sort( (a,b) => {
+
+                        console.log(this.items.indexOf(a));
+                        console.log(this.items.indexOf(b));
+                        console.log("----------------------------")
+                        
+                        if(a.name.toLowerCase() > b.name.toLowerCase()) return +1; //  return  a-b 
+                        if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+
+                        return 0 ;
+
+                     }  );
+                     
+
+                },
+               sortbyindex(){
+
+                 
+                    
+ 
+                     this.items.sort( (a,b) => {
+
+                        console.log(this.items.indexOf(a));
+                        console.log(this.items.indexOf(b));
+                        console.log("----------------------------")
+                        
+                       return this.items.indexOf(b) - this.items.indexOf(a) 
+
+                     }  );
+                     
+
                 }
 
 
